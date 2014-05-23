@@ -1,13 +1,13 @@
 #!/bin/sh
 
 [ -z "$2" ] &&
-echo "Usage: $0 INSTANCE_NAME INSTANCE_URL" &&
+echo "Usage: $0 INSTANCE_NAME INSTANCE_SERVER_NAME" &&
 echo "       $0 master master.sd-test.sourcefabric.org" &&
 exit 1
 
 
 INSTANCE="$1"
-URL="$2"
+SERVER_NAME="$2"
 NGINX_PORT=82	# frontend port of nginx
 STARTING_PORT=9090	# starting port for instances
 ROOT=/var/opt/superdesk_instances	# superdesk instances root
