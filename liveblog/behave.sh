@@ -17,7 +17,7 @@ root_path=/var/opt/instances/"$1"
 cd "$test_path"
 
 
-pip uninstall -y behave
+pip uninstall -y behave wooper
 pip install --upgrade pip distribute
 #pip install --upgrade -r requirements.txt
 ./install_requirements.sh
