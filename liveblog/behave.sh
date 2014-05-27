@@ -17,12 +17,12 @@ root_path=/var/opt/instances/"$1"
 cd "$test_path"
 
 
-pip install --upgrade pip
+pip install --upgrade pip distribute
 #pip install --upgrade -r requirements.txt
 ./install_requirements.sh
 
 
-echo SERVER_URL = \"http://$1.lb-test.sourcefabric.org/\" > $test_path/settings_local.py
+echo SERVER_URL = \"http://$1.lb-test.sourcefabric.org/resources/\" > $test_path/settings_local.py
 cat $test_path/settings_local.py
 
 
