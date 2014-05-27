@@ -3,9 +3,8 @@
 
 export LC_ALL="en_US.utf8"
 
-plan_path=$(pwd)
-root_path=/var/opt/instances/"$1"
-test_path=$plan_path/./ally-py/superdesk/rest_tests
+plan_path=$(dirname $0)
+test_path=$plan_path/liveblog/rest_tests
 
 rm -fr $test_path
 cp -rf ./liveblog_tests $test_path
