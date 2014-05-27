@@ -32,7 +32,7 @@ mkdir $plan_path/behave_results/  2>/dev/null
 
 
 # run tests
-behave --junit --junit-folder=$plan_path/behave_results &&
+behave --junit --junit-directory $plan_path/behave_results &&
 
 
 exit 0
