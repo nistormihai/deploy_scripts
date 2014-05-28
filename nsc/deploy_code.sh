@@ -12,8 +12,8 @@ BRANCH=$(url_safe "$BRANCH")
 DEVELOPER="$bamboo_developer"
 WORKDIR="$(pwd)"
 DBUSER="$APP"_"$BRANCH"
-DBNAME=$(echo "$DBUSER" | awk '{print substr($0,0,60)}')_db
-DBUSER=$(echo "$DBUSER" | md5sum | awk '{print substr($0,0,15)}') # first 16 symbols of md5 hash
+DBNAME=$(echo "$DBUSER" | cut -c 1-61)_db
+DBUSER=$(echo "$DBUSER" | md5sum | cut -c 1-16) # first 16 symbols of md5 hash
 INSTALL_DIR="/var/www/$APP/$BRANCH"
 #}}}
 
