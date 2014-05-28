@@ -2,7 +2,7 @@
 
 APP="$bamboo_app"
 DEVELOPER="$bamboo_developer"
-test ! -z "$bamboo_lab" && LAB_INSTANCE="$bamboo_lab" || LAB_INSTANCE="prelive"
+test ! -z "$bamboo_lab" && LAB_INSTANCE="$bamboo_lab" || LAB_INSTANCE=$APP
 PORT="$bamboo_port"
 
 BACKUP_PATH="/var/dumps/""$APP"
