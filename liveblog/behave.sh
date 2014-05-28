@@ -1,11 +1,13 @@
 #!/bin/bash
 # $1 branch name
+# $2 URL
 
 export LC_ALL="en_US.utf8"
 
 plan_path=$(dirname $0)
 test_path=$(readlink -e $plan_path/../../liveblog/rest_tests)
 root_path=/var/opt/instances/"$1"
+URL=$2
 
 
 [ ! -f "$root_path"/env_test/bin/activate ] && (
@@ -23,7 +25,7 @@ pip install --upgrade pip distribute
 ./install_requirements.sh
 
 
-echo SERVER_URL = \"http://$1.lb-test.sourcefabric.org/resources/\" > $test_path/settings_local.py
+echo SERVER_URL = \"$URL\" > $test_path/settings_local.py
 cat $test_path/settings_local.py
 
 
