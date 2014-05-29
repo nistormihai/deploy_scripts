@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ -z "$2" ] &&
+[ -z "$1" ] &&
 echo "Usage: $0 INSTANCE_NAME" &&
 echo "       $0 master" &&
 exit 1
@@ -13,13 +13,13 @@ BACKEND_PATH=$INSTANCE_PATH/backend
 
 
 # create/reuse virtual environment
-[ ! -f $INSTANCE_PATH/env/bin/activate ] && (
-    virtualenv-3.4 -p python3.3 $INSTANCE_PATH/env;
+[ ! -f $INSTANCE_PATH/behave_env/bin/activate ] && (
+    virtualenv-3.4 -p python3.3 $INSTANCE_PATH/behave_env;
 )
-. $INSTANCE_PATH/env/bin/activate &&
+. $INSTANCE_PATH/behave_env/bin/activate &&
 
 # run test
-cd $BACKEND_PATH &&
+cd $PLAN_PATH/superdesk &&
 behave --junit --junit-directory $PLAN_PATH/behave_results ;
 
 exit 0
