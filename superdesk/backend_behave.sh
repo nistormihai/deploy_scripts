@@ -13,13 +13,20 @@ BACKEND_PATH=$INSTANCE_PATH/backend
 
 
 # create/reuse virtual environment
-[ ! -f $INSTANCE_PATH/behave_env/bin/activate ] && (
-    virtualenv-3.4 -p python3.3 $INSTANCE_PATH/behave_env;
+[ ! -f $INSTANCE_PATH/test_env/bin/activate ] && (
+    virtualenv-3.4 -p python3.3 $INSTANCE_PATH/test_env;
 )
-. $INSTANCE_PATH/behave_env/bin/activate &&
+. $INSTANCE_PATH/test_env/bin/activate &&
+
+cd $PLAN_PATH/superdesk &&
+
+# install dependencies
+(
+	pip install -U pip distribute &&
+	pip install -U -r ./requirements.txt
+) &&
 
 # run test
-cd $PLAN_PATH/superdesk &&
 behave --junit --junit-directory $PLAN_PATH/behave_results ;
 
 exit 0
