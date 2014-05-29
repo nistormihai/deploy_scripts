@@ -4,8 +4,8 @@
 
 export LC_ALL="en_US.utf8"
 
-plan_path=$(dirname $0)
-test_path=$(readlink -e $plan_path/../../liveblog/rest_tests)
+plan_path=$(dirname $0)"/../../"
+test_path=$(readlink -e $plan_path/liveblog/rest_tests)
 root_path=/var/opt/instances/"$1"
 URL=$2
 
