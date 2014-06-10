@@ -15,6 +15,8 @@ DBUSER="$APP"_"$BRANCH"
 DBNAME=$(echo "$DBUSER" | cut -c 1-61)_db
 DBUSER=$(echo "$DBUSER" | md5sum | cut -c 1-16) # first 16 symbols of md5 hash
 INSTALL_DIR="/var/www/$APP/$BRANCH"
+
+VERSION="$bamboo_version"
 [ -z $VERSION] && VERSION=42;
 #}}}
 
