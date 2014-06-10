@@ -119,6 +119,7 @@ php composer.phar dump-autoload --optimize
 (
 chown -R www-data:www-data $INSTALL_DIR &&
 #su - www-data -c "php $INSTALL_DIR/upgrade.php" &&
+rm $INSTALL_DIR/upgrade.php 2> /dev/null ;
 rm $INSTALL_DIR/conf/upgrading.php 2> /dev/null ;
 rm $INSTALL_DIR/conf/installation.php 2> /dev/null ;
 service apache2 reload
