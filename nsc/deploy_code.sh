@@ -15,6 +15,7 @@ DBUSER="$APP"_"$BRANCH"
 DBNAME=$(echo "$DBUSER" | cut -c 1-61)_db
 DBUSER=$(echo "$DBUSER" | md5sum | cut -c 1-16) # first 16 symbols of md5 hash
 INSTALL_DIR="/var/www/$APP/$BRANCH"
+[ -z $VERSION] && VERSION=42;
 #}}}
 
 #{{{ Create virtual host for instance
@@ -54,12 +55,13 @@ cp -R $WORKDIR/plugins/* $INSTALL_DIR/plugins/ &&
 cp -R $WORKDIR/dependencies/include/* $INSTALL_DIR/include/ &&
 cp -R $WORKDIR/themes_git/* $INSTALL_DIR/themes_git/ &&
 
-cp $WORKDIR/deploy_scripts/nsc/configuration.php $INSTALL_DIR/conf/ &&
-cp $WORKDIR/deploy_scripts/nsc/system_preferences.php $INSTALL_DIR/
+cp $WORKDIR/deploy_scripts/nsc/configuration.php.$VERSION \
+	$INSTALL_DIR/conf/configuration.php &&
+cp $WORKDIR/deploy_scripts/nsc/system_preferences.php $INSTALL_DIR/ &&
 
-cd $INSTALL_DIR
+cd $INSTALL_DIR &&
 
-cd themes_git
+cd themes_git &&
 test ! -d publication_* && (
 	mkdir -p ../themes/publication_1/theme_1;
 	mv * ../themes/publication_1/theme_1;
