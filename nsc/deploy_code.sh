@@ -18,7 +18,6 @@ INSTALL_DIR="/var/www/$APP/$BRANCH"
 
 VERSION="$bamboo_version"
 [ -z $VERSION ] && VERSION=42;
-echo VERSION = $VERSION
 #}}}
 
 #{{{ Create virtual host for instance
