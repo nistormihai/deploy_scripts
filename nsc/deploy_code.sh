@@ -17,7 +17,7 @@ DBUSER=$(echo "$DBUSER" | md5sum | cut -c 1-16) # first 16 symbols of md5 hash
 INSTALL_DIR="/var/www/$APP/$BRANCH"
 
 VERSION="$bamboo_version"
-[ -z $VERSION] && VERSION=42;
+[ -z $VERSION ] && VERSION=42;
 echo VERSION = $VERSION
 #}}}
 
