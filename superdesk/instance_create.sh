@@ -8,9 +8,9 @@ exit 1
 
 INSTANCE="$1"
 SERVER_NAME="$2"
-NGINX_PORT=82	# frontend port of nginx
-STARTING_PORT=9090	# starting port for instances
-ROOT=/var/opt/superdesk_instances	# superdesk instances root
+NGINX_PORT=82 # frontend port of nginx
+APP_STARTING_PORT=9090 # starting port for app
+ROOT=/var/opt/superdesk_instances # superdesk instances root
 PWD=$(dirname $0)
 INSTANCE_ROOT=$ROOT/$INSTANCE
 LOG_PATH=$INSTANCE_ROOT/logs
@@ -20,10 +20,10 @@ LOG_PATH=$INSTANCE_ROOT/logs
 mkdir -p $INSTANCE_ROOT ;
 mkdir -p $LOG_PATH ;
 
-# assign free port to instance
+# assign free port to application
 rm $INSTANCE_ROOT/.port 2>/dev/null ;
 PORT=$(expr $(cat $ROOT/*/.port | sort -nr | head -n 1) + 1) 2>/dev/null ;
-[ $PORT -le $STARTING_PORT ] && PORT=$STARTING_PORT ;
+[ $PORT -le $APP_STARTING_PORT ] && PORT=$APP_STARTING_PORT ;
 echo $PORT > $INSTANCE_ROOT/.port &&
 
 # generate nginx vhost
