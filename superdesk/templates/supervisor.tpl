@@ -31,6 +31,7 @@ environment=
     CELERY_BROKER_URL="redis://localhost:6379/superdesk_$INSTANCE",
     CELERY_RESULT_BACKEND="redis://localhost:6379/superdesk_$INSTANCE",
     CELERY_ALWAYS_EAGER="False"
+    C_FORCE_ROOT="True"
 stdout_logfile=$LOG_PATH/celery_stdout
 stderr_logfile=$LOG_PATH/celery_stderr
 EOF
