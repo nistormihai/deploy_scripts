@@ -10,7 +10,7 @@ APP="$bamboo_app"
 DEVELOPER="$bamboo_developer"
 BRANCH=$(url_safe "$BRANCH")
 
-test ! -z "$bamboo_lab" && LAB_INSTANCE="$bamboo_lab" || LAB_INSTANCE="$APP"-prelive
+test ! -z "$bamboo_lab" && LAB_INSTANCE="$bamboo_lab" || LAB_INSTANCE="$APP"
 
 BACKUP_PATH=/var/dumps/$APP
 INSTALL_DIR=/var/www/$APP/
