@@ -44,13 +44,15 @@ echo $BRANCH.$APP.$DEVELOPER.sourcefabric.net
 
 #{{{ Copy code
 (
-rm -fr $INSTALL_DIR/images ;
-rm -fr $INSTALL_DIR/files ;
-rm -fr $INSTALL_DIR/themes ;
-rm -fr $INSTALL_DIR/themes_git ;
-
-mkdir -p $INSTALL_DIR/conf &&
-mkdir -p $INSTALL_DIR/themes_git/ &&
+#rm -fr $INSTALL_DIR/images ;
+#rm -fr $INSTALL_DIR/files ;
+#rm -fr $INSTALL_DIR/themes ;
+#rm -fr $INSTALL_DIR/themes_git ;
+(
+	rm -r $INSTALL_DIR ;
+	mkdir -p $INSTALL_DIR/conf &&
+	mkdir -p $INSTALL_DIR/themes_git/
+) &&
 
 cp -R $WORKDIR/newscoop/* $INSTALL_DIR/ &&
 cp -R $WORKDIR/plugins/* $INSTALL_DIR/plugins/ &&
