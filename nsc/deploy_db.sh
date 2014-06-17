@@ -29,11 +29,17 @@ OLD_URL="$LAB_INSTANCE".lab.sourcefabric.org
 cd $BACKUP_PATH &&
 
 (
-test -e new_backup && (sudo rm -fr backup-* new_backup ; sudo tar xvf backup.tar.gz )
+	test -e new_backup &&
+	(
+		sudo rm -r backup-* new_backup ;
+		sudo tar xvf backup.tar.gz
+	) || true
 ) &&
 
-rsync -a --protect-args --rsync-path="sudo rsync" $IMG_SRC $INSTALL_DIR &&
-rsync -a --protect-args --rsync-path="sudo rsync" $FILES_SRC $INSTALL_DIR &&
+(
+	rsync -a --protect-args --rsync-path="sudo rsync" $IMG_SRC $INSTALL_DIR ;
+	rsync -a --protect-args --rsync-path="sudo rsync" $FILES_SRC $INSTALL_DIR ;
+) &&
 chown -R www-data $INSTALL_DIR &&
 
 mysql -p$PASSWORD -e "SET GLOBAL general_log = 'OFF';" &&
