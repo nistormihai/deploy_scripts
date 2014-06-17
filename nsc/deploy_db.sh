@@ -25,26 +25,30 @@ DUMP_FILE=lab_"$LAB_INSTANCE"-database.sql
 OLD_URL="$LAB_INSTANCE".lab.sourcefabric.org
 
 
-cd $BACKUP_PATH
-rsync -a --protect-args --rsync-path="sudo rsync" $IMG_SRC $INSTALL_DIR
-rsync -a --protect-args --rsync-path="sudo rsync" $FILES_SRC $INSTALL_DIR
-chown -R www-data $INSTALL_DIR
 
-mysql -p$PASSWORD -e "SET GLOBAL general_log = 'OFF';"
+cd $BACKUP_PATH &&
+(sudo rm -fr backup-* ; sudo tar xvf backup.tar.gz ) &&
 
-echo "drop database \`$DBNAME\` ;"
-mysql -p$PASSWORD  -e "drop database \`$DBNAME\` ;"
+rsync -a --protect-args --rsync-path="sudo rsync" $IMG_SRC $INSTALL_DIR &&
+rsync -a --protect-args --rsync-path="sudo rsync" $FILES_SRC $INSTALL_DIR &&
+chown -R www-data $INSTALL_DIR &&
 
-echo "create database \`$DBNAME\` ;"
-mysql -p$PASSWORD  -e "create database \`$DBNAME\` ;"
+mysql -p$PASSWORD -e "SET GLOBAL general_log = 'OFF';" &&
 
-echo "grant all privileges on \`$DBNAME\`.* to \`$DBUSER\`@\`localhost\` identified by '$DBUSER' with grant option;"
-mysql -p$PASSWORD  -e "grant all privileges on \`$DBNAME\`.* to \`$DBUSER\`@\`localhost\` identified by '$DBUSER' with grant option;"
+echo "drop database \`$DBNAME\` ;" &&
+mysql -p$PASSWORD  -e "drop database \`$DBNAME\` ;" &&
 
-cd backup-*
-echo "mysql $DBNAME < $DUMP_FILE"
-mysql -p$PASSWORD  $DBNAME < $DUMP_FILE
+echo "create database \`$DBNAME\` ;" &&
+mysql -p$PASSWORD  -e "create database \`$DBNAME\` ;" &&
 
-echo " UPDATE Aliases SET Name='$BRANCH.$APP.$DEVELOPER.sourcefabric.net' WHERE Name='$OLD_URL'"
-mysql -p$PASSWORD  $DBNAME -e "UPDATE Aliases SET Name='$BRANCH.$APP.$DEVELOPER.sourcefabric.net' WHERE Name='$OLD_URL'"
+echo "grant all privileges on \`$DBNAME\`.* to \`$DBUSER\`@\`localhost\` identified by '$DBUSER' with grant option;" &&
+mysql -p$PASSWORD  -e "grant all privileges on \`$DBNAME\`.* to \`$DBUSER\`@\`localhost\` identified by '$DBUSER' with grant option;" &&
 
+cd backup-* &&
+echo "mysql $DBNAME < $DUMP_FILE" &&
+mysql -p$PASSWORD  $DBNAME < $DUMP_FILE &&
+
+echo " UPDATE Aliases SET Name='$BRANCH.$APP.$DEVELOPER.sourcefabric.net' WHERE Name='$OLD_URL'" &&
+mysql -p$PASSWORD  $DBNAME -e "UPDATE Aliases SET Name='$BRANCH.$APP.$DEVELOPER.sourcefabric.net' WHERE Name='$OLD_URL'" &&
+
+exit 0
