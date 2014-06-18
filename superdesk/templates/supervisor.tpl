@@ -19,7 +19,7 @@ stderr_logfile=$LOG_PATH/app_stderr
 
 [program:superdesk_celery_$INSTANCE]
 directory=$INSTANCE_ROOT/backend
-command=$INSTANCE_ROOT/env/bin/celery worker -A worker.celery
+command=$INSTANCE_ROOT/env/bin/python $INSTANCE_ROOT/env/bin/celery worker -A worker.celery
 environment=
     PATH="$INSTANCE_ROOT/env/bin:$PATH",
     SUPERDESK_URL="https://$SERVER_NAME/api",
