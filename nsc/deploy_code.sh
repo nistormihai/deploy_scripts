@@ -20,97 +20,67 @@ VERSION="$bamboo_version"
 [ -z $VERSION ] && VERSION=42;
 #}}}
 
-#{{{ Create virtual host for instance
-(
-cd /etc/apache2/sites-enabled/ &&
-cat >"$APP"_"$BRANCH" <<EOF
-<VirtualHost *:80>
-      DocumentRoot $INSTALL_DIR
-      ServerName $BRANCH.$APP.$DEVELOPER.sourcefabric.net
-      DirectoryIndex index.php index.html
-      <Directory $INSTALL_DIR>
-              Options -Indexes FollowSymLinks MultiViews
-              AllowOverride All
-              Order allow,deny
-              Allow from all
-      </Directory>
-	ErrorLog \${APACHE_LOG_DIR}/error.$APP.$BRANCH.log
-	CustomLog \${APACHE_LOG_DIR}/access.$APP.$BRANCH.log combined
-</VirtualHost>
-EOF
-#}}}
-echo $BRANCH.$APP.$DEVELOPER.sourcefabric.net
-) &&
 
-#{{{ Copy code
-(
+echo $BRANCH.$APP.$DEVELOPER.sourcefabric.net ;
+
+
+# create virtual host for instance
+.  $WORKDIR/deploy_scripts/nsc/templates/vhost.sh > /etc/apache2/sites-enabled/$APP"_"$BRANCH &&
+
+# cleanup dest dir
 #rm -fr $INSTALL_DIR/images ;
 #rm -fr $INSTALL_DIR/files ;
 #rm -fr $INSTALL_DIR/themes ;
 #rm -fr $INSTALL_DIR/themes_git ;
+#rm -rf $INSTALL_DIR/cache/* ;
 (
 	rm -r $INSTALL_DIR ;
 	mkdir -p $INSTALL_DIR/conf &&
 	mkdir -p $INSTALL_DIR/themes_git/
 ) &&
 
+# copy core newscoop code
 cp -R $WORKDIR/newscoop/* $INSTALL_DIR/ &&
 cp -R $WORKDIR/plugins/* $INSTALL_DIR/plugins/ &&
 cp -R $WORKDIR/dependencies/include/* $INSTALL_DIR/include/ &&
-cp -R $WORKDIR/themes_git/* $INSTALL_DIR/themes_git/ &&
 
-cp $WORKDIR/deploy_scripts/nsc/configuration.php.$VERSION \
-	$INSTALL_DIR/conf/configuration.php &&
-cp $WORKDIR/deploy_scripts/nsc/system_preferences.php $INSTALL_DIR/ &&
-
-cd $INSTALL_DIR &&
-
-cd themes_git &&
-test ! -d publication_* && (
-	mkdir -p ../themes/publication_1/theme_1;
-	mv * ../themes/publication_1/theme_1;
-	cd ../themes/publication_1;
-	for i in $(seq 2 5); do ln -sf theme_1 theme_$i; done;
-	cd .. ;
-	for i in $(seq 2 5); do ln -sf publication_1 publication_$i; done;
-) ||
-	mv * ../themes/
-) ;
-#}}}
-
+# copy theme code
 (
-cd $INSTALL_DIR &&
-mv htaccess .htaccess ;
-rm -rf cache/* ;
-
-rm -rf images ;
-ln -s ../images images ;
-rm -rf files ;
-ln -s ../files files ;
-) ;
-
-#{{{ Generate DB config file
-(
-cd $INSTALL_DIR &&
-cat >conf/database_conf.php <<EOF
-<?php
-global \$Campsite;
-\$Campsite['DATABASE_NAME'] = '$DBNAME';
-\$Campsite['DATABASE_SERVER_ADDRESS'] = 'localhost';
-\$Campsite['DATABASE_SERVER_PORT'] = '3306';
-\$Campsite['DATABASE_USER'] = '$DBUSER';
-\$Campsite['DATABASE_PASSWORD'] = '$DBUSER';
-/** Database settings **/
-\$Campsite['db']['type'] = 'mysql';
-\$Campsite['db']['host'] = \$Campsite['DATABASE_SERVER_ADDRESS'];
-\$Campsite['db']['port'] = \$Campsite['DATABASE_SERVER_PORT'];
-\$Campsite['db']['name'] = \$Campsite['DATABASE_NAME'];
-\$Campsite['db']['user'] = \$Campsite['DATABASE_USER'];
-\$Campsite['db']['pass'] = \$Campsite['DATABASE_PASSWORD'];
-?>
-EOF
+	cp -R $WORKDIR/themes_git/* $INSTALL_DIR/themes_git/ &&
+	cd $INSTALL_DIR/themes_git &&
+	test ! -d publication_* && (
+		mkdir -p ../themes/publication_1/theme_1;
+		mv * ../themes/publication_1/theme_1;
+		cd ../themes/publication_1;
+		for i in $(seq 2 5); do ln -sf theme_1 theme_$i; done;
+		cd .. ;
+		for i in $(seq 2 5); do ln -sf publication_1 publication_$i; done;
+	) ||
+		mv * ../themes/
 ) &&
-#}}}
+
+# rename htaccess
+(
+	cd $INSTALL_DIR &&
+	mv htaccess .htaccess ;
+) ;
+
+# create symlinks
+(
+	rm -rf images ;
+	ln -s ../images images ;
+
+	rm -rf files ;
+	ln -s ../files files ;
+) ;
+
+# copy configs
+cp $WORKDIR/deploy_scripts/nsc/configs/configuration.php.$VERSION $INSTALL_DIR/conf/configuration.php &&
+cp $WORKDIR/deploy_scripts/nsc/configs/system_preferences.php $INSTALL_DIR/ &&
+
+# Generate DB config file
+.  $WORKDIR/deploy_scripts/nsc/templates/database_conf.php.sh > $INSTALL_DIR/conf/database_conf.php &&
+
 
 #{{{ Install composer
 (
