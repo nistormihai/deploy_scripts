@@ -28,13 +28,13 @@ echo $BRANCH.$APP.$DEVELOPER.sourcefabric.net ;
 .  $WORKDIR/deploy_scripts/nsc/templates/vhost.sh > /etc/apache2/sites-enabled/$APP"_"$BRANCH &&
 
 # cleanup dest dir
-#rm -fr $INSTALL_DIR/images ;
-#rm -fr $INSTALL_DIR/files ;
-#rm -fr $INSTALL_DIR/themes ;
-#rm -fr $INSTALL_DIR/themes_git ;
-#rm -rf $INSTALL_DIR/cache/* ;
+#rm -r $INSTALL_DIR/images ;
+#rm -r $INSTALL_DIR/files ;
+#rm -r $INSTALL_DIR/themes ;
+#rm -r $INSTALL_DIR/themes_git ;
 (
-	rm -r $INSTALL_DIR ;
+	#rm -r $INSTALL_DIR ;
+	rm -r $INSTALL_DIR/cache/* ;
 	mkdir -p $INSTALL_DIR/conf &&
 	mkdir -p $INSTALL_DIR/themes_git/
 ) &&
@@ -67,10 +67,10 @@ cp -R $WORKDIR/dependencies/include/* $INSTALL_DIR/include/ &&
 
 # create symlinks
 (
-	rm -rf images ;
+	rm -r images ;
 	ln -s ../images images ;
 
-	rm -rf files ;
+	rm -r files ;
 	ln -s ../files files ;
 ) ;
 
