@@ -72,7 +72,9 @@ cp -R $WORKDIR/dependencies/include/* $INSTALL_DIR/include/ &&
 # create symlinks
 (
 	cd $INSTALL_DIR &&
+	rm -r images ;
 	ln -s ../images images ;
+	rm -r files ;
 	ln -s ../files files ;
 ) ;
 
