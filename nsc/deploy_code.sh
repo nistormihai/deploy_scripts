@@ -30,13 +30,15 @@ echo $BRANCH.$APP.$DEVELOPER.sourcefabric.net ;
 # cleanup dest dir
 (
 	#rm -r $INSTALL_DIR ;
-	#rm -r $INSTALL_DIR/images ;
-	#rm -r $INSTALL_DIR/files ;
+
 	#rm -r $INSTALL_DIR/themes ;
 	#rm -r $INSTALL_DIR/themes_git ;
-	rm -r $INSTALL_DIR/cache/* ;
-	rm -r $INSTALL_DIR/images ;
-	rm -r $INSTALL_DIR/files ;
+	#rm -r $INSTALL_DIR/cache/* ;
+	#rm -r $INSTALL_DIR/images ;
+	#rm -r $INSTALL_DIR/files ;
+	cd $INSTALL_DIR &&
+	ls | grep -v 'vendor' | xargs rm -r ;
+
 	mkdir -p $INSTALL_DIR/conf &&
 	mkdir -p $INSTALL_DIR/themes_git/
 ) &&
