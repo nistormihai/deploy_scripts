@@ -20,7 +20,7 @@ VERSION="$bamboo_version"
 [ -z $VERSION ] && VERSION=42;
 #}}}
 
-
+# OH HAI
 echo $BRANCH.$APP.$DEVELOPER.sourcefabric.net ;
 
 
@@ -28,12 +28,12 @@ echo $BRANCH.$APP.$DEVELOPER.sourcefabric.net ;
 .  $WORKDIR/deploy_scripts/nsc/templates/vhost.sh > /etc/apache2/sites-enabled/$APP"_"$BRANCH &&
 
 # cleanup dest dir
-#rm -r $INSTALL_DIR/images ;
-#rm -r $INSTALL_DIR/files ;
-#rm -r $INSTALL_DIR/themes ;
-#rm -r $INSTALL_DIR/themes_git ;
 (
 	#rm -r $INSTALL_DIR ;
+	#rm -r $INSTALL_DIR/images ;
+	#rm -r $INSTALL_DIR/files ;
+	#rm -r $INSTALL_DIR/themes ;
+	#rm -r $INSTALL_DIR/themes_git ;
 	rm -r $INSTALL_DIR/cache/* ;
 	mkdir -p $INSTALL_DIR/conf &&
 	mkdir -p $INSTALL_DIR/themes_git/
@@ -67,6 +67,8 @@ cp -R $WORKDIR/dependencies/include/* $INSTALL_DIR/include/ &&
 
 # create symlinks
 (
+	cd $INSTALL_DIR &&
+
 	rm -r images ;
 	ln -s ../images images ;
 
@@ -82,18 +84,17 @@ cp $WORKDIR/deploy_scripts/nsc/configs/system_preferences.php $INSTALL_DIR/ &&
 .  $WORKDIR/deploy_scripts/nsc/templates/database_conf.php.sh > $INSTALL_DIR/conf/database_conf.php &&
 
 
-#{{{ Install composer
+# Install composer
 (
-cd $INSTALL_DIR &&
-export COMPOSER_HOME="$INSTALL_DIR" &&
-curl -s https://getcomposer.org/installer | php &&
-php composer.phar install --no-dev --prefer-dist &&
-php composer.phar dump-autoload --optimize 
+	cd $INSTALL_DIR &&
+	export COMPOSER_HOME="$INSTALL_DIR" &&
+	curl -s https://getcomposer.org/installer | php &&
+	php composer.phar install --no-dev --prefer-dist &&
+	php composer.phar dump-autoload --optimize 
 ) &&
-#}}}
 
-chown -R www-data:www-data $INSTALL_DIR &&
 
+# upgrade scripts
 (
 	#su - www-data -c "php $INSTALL_DIR/upgrade.php" ;
 	rm $INSTALL_DIR/upgrade.php 2> /dev/null ;
@@ -101,8 +102,11 @@ chown -R www-data:www-data $INSTALL_DIR &&
 	rm $INSTALL_DIR/conf/installation.php 2> /dev/null ;
 ) ;
 
-service apache2 reload &&
-
+# set perms
+chown -R www-data:www-data $INSTALL_DIR &&
 /home/ubuntu/fix_www.sh ;
+
+# reload vhosts
+service apache2 reload &&
 
 exit 0
