@@ -105,8 +105,7 @@ cp $WORKDIR/deploy_scripts/nsc/configs/system_preferences.php $INSTALL_DIR/ &&
 ) ;
 
 # set perms
-chown -R www-data:www-data $INSTALL_DIR &&
-/home/ubuntu/fix_www.sh ;
+chown -R ubuntu:www-data $INSTALL_DIR &&
 
 # reload vhosts
 service apache2 reload &&
