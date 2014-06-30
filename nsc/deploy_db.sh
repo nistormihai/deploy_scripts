@@ -42,10 +42,10 @@ cd $BACKUP_PATH &&
 ) &&
 chown -R www-data $INSTALL_DIR &&
 
-mysql -p$PASSWORD -e "SET GLOBAL general_log = 'OFF';" &&
+mysql -p$PASSWORD -e "SET GLOBAL general_log = 'OFF';" ;
 
 echo "drop database \`$DBNAME\` ;" &&
-mysql -p$PASSWORD  -e "drop database \`$DBNAME\` ;" &&
+mysql -p$PASSWORD  -e "drop database \`$DBNAME\` ;" ;
 
 echo "create database \`$DBNAME\` ;" &&
 mysql -p$PASSWORD  -e "create database \`$DBNAME\` ;" &&
