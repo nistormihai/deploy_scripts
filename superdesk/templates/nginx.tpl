@@ -5,13 +5,17 @@ upstream superdesk_$INSTANCE {
  
 server {
 	listen          $NGINX_PORT;
-	server_name     $URL;
+	server_name     $SERVER_NAME;
 	access_log      $LOG_PATH/access.log combined;
 	error_log      $LOG_PATH/error.log;
 
 	location /api {
-		proxy_pass      http://superdesk_$INSTANCE;
-		proxy_redirect http://superdesk_$INSTANCE https://$URL;
+		proxy_pass http://superdesk_$INSTANCE;
+		proxy_redirect off;
+		
+		proxy_set_header Host \$host;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
 	}
 
 	location / {
