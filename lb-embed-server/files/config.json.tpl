@@ -1,4 +1,3 @@
-cat <<EOF
 {
     "servers": {
         "nodejs": "$backend_url:$backend_port",
@@ -15,7 +14,7 @@ cat <<EOF
         "scripts": "<%= paths.scriptsRoot %>scripts/js/",
         "themesRoot": "<%= paths.root %>gui-themes/",
         "themes": "<%= paths.themesRoot %>themes/",
-        "build": "<%= paths.root %>build/",
+        "build": "<%= paths.scripts %>build/",
         "logs": "<%= paths.root %>logs/",
         "test": "<%= paths.root %>test/",
         "docs": "<%= paths.root %>docs/",
@@ -24,20 +23,20 @@ cat <<EOF
     },
     "liveblog": {
         "id": 1,
-        "servers": {
-            "frontend": "<%= servers.proxy %>",
-            "css": "<%= liveblog.servers.frontend %>"
-        },
+        "servers": {},
         "paths": {
-            "scripts": "/scripts/js/",
-            "css": "/"
+            "scripts": "/content/lib/embed/scripts/js/",
+            "css": "../../../content/lib/embed/",
+            "themes": "../../themes/",
+            "buildThemes": "./build/themes"
         },
         "render": "seo,embed",
         "theme": "zeit",
         "fallback": {
             "language": "de"
         },
-        "dev": true
+        "hashmark": "#",
+		"dev": true
     }
 }
 EOF
