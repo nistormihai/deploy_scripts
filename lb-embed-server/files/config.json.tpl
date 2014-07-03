@@ -27,7 +27,7 @@ cat <<EOF
         "servers": {},
         "paths": {
             "scripts": "/content/lib/embed/scripts/js/",
-            "css": "../../../content/lib/embed/",
+            "css": "/",
             "themes": "../../themes/",
             "buildThemes": "./build/themes"
         },
