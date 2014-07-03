@@ -1,3 +1,4 @@
+cat <<EOF
 {
     "servers": {
         "nodejs": "$backend_url:$backend_port",
