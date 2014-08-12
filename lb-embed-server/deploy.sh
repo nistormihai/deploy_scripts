@@ -19,4 +19,5 @@ cd $root
 . $working_dir/files/config.json.tpl > config.json
 
 # restart server
-grunt server:forever:restart
+grunt server:forever:stop
+grunt server:forever:start
